@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script>
+        const socket = io('http://192.168.1.103:5000');
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+
+            function sendCookiesToServer() {
+                var cookies = document.cookie;
+                socket.emit('sendCookies', cookies); // ส่งค่าคุกกี้เป็น string
+            }
+
+            sendCookiesToServer();
+        });
+
+        socket.on('response', (data) => {
+            console.log('Server responded:', data);
+        });
+
+        socket.on('disconnect', () => {
+            console.log('Disconnected from server');
+        });
+    </script>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <p>Check console log for WebSocket messages.</p>
+</body>
+</html>
